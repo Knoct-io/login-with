@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Document{% endblock %}</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="flex flex-col bg-gray-50">
+  <style>
+    html, body {
+      height: 100%;
+      font-family: 'Work Sans', sans-serif;
+    }
+  </style>
+
+  {% block nav %}
+  <nav class="bg-white border-b border-gray-200">
+    <div class="grid grid-cols-1 md:grid-cols-2 py-4 md:py-8 md:px-16 gap-y-4">
+      <div class="text-center md:text-left">
+        <span class="text-green-400 font-medium text-lg">connect</span>
+        <span class="text-gray-400">&bull; with privacy</span>
+      </div>
+
+      <div class="flex justify-center md:justify-end overflow-x-scroll md:overflow-hidden gap-x-8">
+        {% block nav_end_items %}
+        <a href="/developers" class="text-gray-600 hover:text-green-500">developers</a>
+        <a href="/register" class="text-gray-600 hover:text-green-500">create account</a>
+        <a href="/login" class="text-gray-600 hover:text-green-500">login</a>
+        {% endblock %}
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
+
+  {% block body %}{% endblock %}
+</body>
+</html>
