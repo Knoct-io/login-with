@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django_countries.fields import CountryField
 
 
 class User(AbstractUser):
@@ -57,3 +58,40 @@ class User(AbstractUser):
 
   def __str__(self):
     return f'{self.email} {self.role}'
+
+
+class DeveloperProfile(models.Model):
+  """
+  Represents the profile of a developer.
+  """
+  user = models.OneToOneField(
+    User,
+    related_name='profile',
+    on_delete=models.CASCADE,
+  )
+
+  country = CountryField(
+    null=True,
+    blank=True,
+  )
+
+  company = models.CharField(
+    max_length=512,
+    null=True,
+    blank=True,
+  )
+
+  website = models.URLField(
+    null=True,
+    blank=True,
+  )
+
+  phone = models.CharField(
+    max_length=32,
+    null=True,
+    blank=True,
+  )
+
+  last_updated_at = models.DateTimeField(
+    auto_now=True,
+  )
