@@ -15,6 +15,12 @@ class LoginView(FormView):
   form_class = LoginViewForm
   template_name = 'auth/login/login.html'
 
+  def get(self, request, *args, **kwargs):
+    if request.user.is_authenticated:
+      return self.redirect_to_success()
+
+    return super().get(request, *args, **kwargs)
+
   def form_invalid(self, form):
     return render(self.request, self.template_name, {
       'error': 'invalid credentials',
@@ -31,4 +37,7 @@ class LoginView(FormView):
       })
 
     login(self.request, user)
-    return redirect('/')
+    return self.redirect_to_success()
+
+  def redirect_to_success(self):
+      return redirect('/')

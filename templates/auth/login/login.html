@@ -12,15 +12,13 @@
         {% endif %}
 
         <div class="bg-white rounded border overflow-hidden border-gray-200 divide-y">
-          <div>
-            <input
-              name="email"
-              type="text"
-              class="w-full p-4 outline-none"
-              placeholder="&#127757;&nbsp; email"
-              value="{{ form.email.value|default:"" }}"
-            />
-          </div>
+          <input
+            name="email"
+            type="text"
+            class="w-full p-4 outline-none"
+            placeholder="&#127757;&nbsp; email"
+            value="{{ form.email.value|default:"" }}"
+          />
 
           <input
             name="password"
