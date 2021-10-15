@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from users.models import DeveloperProfile
 from users.models import User
+from users.models import UserProfile
 
 
 @admin.register(User)
@@ -10,13 +11,15 @@ class UserModelAdmin(admin.ModelAdmin):
     'pk',
     'email',
     'role',
-    'profile',
+    'user_profile',
+    'developer_profile',
     'is_active',
     'last_login',
   )
   list_display_links = (
     'pk',
-    'profile',
+    'user_profile',
+    'developer_profile',
   )
   exclude = (
     'groups',
@@ -33,4 +36,22 @@ class DeveloperProfileModelAdmin(admin.ModelAdmin):
     'company',
     'website',
     'phone',
+  )
+  list_display_links = (
+    'pk',
+    'user',
+  )
+
+
+@admin.register(UserProfile)
+class UserProfileModelAdmin(admin.ModelAdmin):
+  list_display = (
+    'pk',
+    'user',
+    'name',
+    'country',
+  )
+  list_display_links = (
+    'pk',
+    'user',
   )
