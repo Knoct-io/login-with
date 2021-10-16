@@ -3,8 +3,9 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import FormView
+from django.views.generic import TemplateView
 
-from knoct.utils import templatable_errors
+from knoct.utils import templatable_form_errors
 from users.forms import LoginViewForm
 
 
@@ -23,8 +24,8 @@ class LoginView(FormView):
 
   def form_invalid(self, form):
     return render(self.request, self.template_name, {
-      'error': 'invalid credentials',
-      'errors': templatable_errors(form),
+      'form': form,
+      'errors': templatable_form_errors(form),
     })
 
   def form_valid(self, form):
@@ -41,3 +42,7 @@ class LoginView(FormView):
 
   def redirect_to_success(self):
       return redirect('/')
+
+
+class ExampleView(TemplateView):
+  template_name = 'auth/register/register.html'

@@ -1,6 +1,9 @@
 {% extends "../../partials/layout/shell.html" %}
+{% load sniplates %}
 
 {% block body %}
+{% load_widgets form="partials/form/input.html" %}
+
 <div class="flex flex-col justify-center px-8 md:px-0 my-auto">
   <form method="post">
     <main class="grid grid-cols-1 md:grid-cols-3">
@@ -12,20 +15,8 @@
         {% endif %}
 
         <div class="bg-white rounded border overflow-hidden border-gray-200 divide-y">
-          <input
-            name="email"
-            type="text"
-            class="w-full p-4 outline-none"
-            placeholder="&#127757;&nbsp; email"
-            value="{{ form.email.value|default:"" }}"
-          />
-
-          <input
-            name="password"
-            type="password"
-            class="w-full p-4 outline-none"
-            placeholder="&#128274;&nbsp; password"
-          />
+          {% widget "form:input" name="email" placeholder="&#127757;&nbsp; email" field=form.email error=errors.email %}
+          {% widget "form:input" type="password" name="password" placeholder="&#128274;&nbsp; password" field=form.password error=errors.password %}
 
           <button type="submit" class="w-full py-4 bg-gray-600 hover:bg-green-400 text-white transition">
             login

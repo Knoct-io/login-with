@@ -17,7 +17,7 @@ def image_upload_to_random(instance, filename):
   return upload_to_random('images', filename)
 
 
-def templatable_errors(form):
+def templatable_form_errors(form):
   """
   Returns first error message for each field in form.
   """

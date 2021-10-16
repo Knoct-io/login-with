@@ -1,0 +1,17 @@
+{% block input %}
+<div class="w-full">
+  <input
+    name="{{ name }}"
+    type="{{ type | default:'text' }}"
+    placeholder="{{ placeholder }}"
+    class="w-full p-4 outline-none"
+    value="{{ field.value | default:'' }}"
+  />
+
+  {% if error %}
+  <div class="px-4 pb-4 text-sm text-red-400">
+    {{ error }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
