@@ -1,0 +1,29 @@
+{% extends "../../partials/layout/shell.html" %}
+{% load sniplates %}
+
+{% block body %}
+{% load_widgets form="partials/form/input.html" %}
+
+<div class="flex flex-col justify-center items-center px-8 md:px-0 my-auto">
+  <main class="w-full md:w-1/3">
+    <form method="post" class="w-full">
+      <div class="bg-white rounded-t border-t border-l border-r overflow-hidden outline border-gray-200 divide-y">
+        <div class="flex divide-x">
+          {% widget "form:input" name="first_name" placeholder="&#128075;&nbsp; first name" field=form.first_name error=errors.first_name %}
+          {% widget "form:input" name="last_name" placeholder="last name" field=form.last_name error=errors.last_name %}
+        </div>
+
+        {% widget "form:input" name="email" placeholder="&#127757;&nbsp; email" field=form.email error=errors.email %}
+        {% widget "form:input" type="password" name="password" placeholder="&#128275;&nbsp; password" field=form.password error=errors.password %}
+        {% widget "form:checkbox" name="developer" label="&#128295;&nbsp; create a developer account" checked=form.developer.value %}
+      </div>
+
+      <div class="rounded-b overflow-hidden">
+        {% widget "form:submit" message="create account" %}
+      </div>
+
+      {% csrf_token %}
+    </form>
+  </main>
+</div>
+{% endblock %}

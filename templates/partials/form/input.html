@@ -15,3 +15,26 @@
   {% endif %}
 </div>
 {% endblock %}
+
+
+{% block checkbox %}
+<label class="p-4 flex items-center justify-between cursor-pointer">
+  <span class="w-full text-gray-400">
+    {{ label }}
+  </span>
+
+  <input
+    type="checkbox"
+    name="{{ name }}"
+    class="form-checkbox rounded-full"
+    {% if checked %}checked{% endif %}
+  >
+</label>
+{% endblock %}
+
+
+{% block submit %}
+<button type="submit" class="w-full py-4 bg-gray-600 hover:bg-green-400 text-white transition">
+  {{ message | default:"submit" }}
+</button>
+{% endblock %}

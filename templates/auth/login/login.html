@@ -14,13 +14,13 @@
         </div>
         {% endif %}
 
-        <div class="bg-white rounded border overflow-hidden border-gray-200 divide-y">
+        <div class="bg-white rounded-t border-t border-l border-r overflow-hidden border-gray-200 divide-y">
           {% widget "form:input" name="email" placeholder="&#127757;&nbsp; email" field=form.email error=errors.email %}
           {% widget "form:input" type="password" name="password" placeholder="&#128274;&nbsp; password" field=form.password error=errors.password %}
+        </div>
 
-          <button type="submit" class="w-full py-4 bg-gray-600 hover:bg-green-400 text-white transition">
-            login
-          </button>
+        <div class="rounded-b overflow-hidden">
+          {% widget "form:submit" message="login" %}
         </div>
       </div>
     </main>

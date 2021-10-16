@@ -1,6 +1,7 @@
 import uuid
 
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager as UpstreamUserManager
 from django.db import models
 from django.utils.timezone import now
 from django_countries.fields import CountryField
@@ -8,11 +9,51 @@ from django_countries.fields import CountryField
 from knoct.utils import image_upload_to_random
 
 
+class UserManager(UpstreamUserManager):
+  """
+  The manager that django supplies depends on a username which
+  is not available in the custom user model.
+  """
+  def _create_user(self, email, password, **extra_fields):
+    email = self.normalize_email(email)
+
+    user = self.model(email=email, **extra_fields)
+    user.set_password(password)
+    user.save(using=self._db)
+
+    return user
+
+  def create_user(self, email, password=None, **extra_fields):
+    """
+    Create a new regular user.
+    """
+    extra_fields.setdefault('is_staff', False)
+    extra_fields.setdefault('is_superuser', False)
+    return self._create_user(email, password, **extra_fields)
+
+  def create_superuser(self, email, password, **extra_fields):
+    """
+    Create a new superuser.
+    """
+    extra_fields.setdefault('is_staff', True)
+    extra_fields.setdefault('is_superuser', True)
+
+    if extra_fields.get('is_staff') is not True:
+      raise ValueError('Superuser must have is_staff=True.')
+
+    if extra_fields.get('is_superuser') is not True:
+      raise ValueError('Superuser must have is_superuser=True.')
+
+    return self._create_user(email, password, **extra_fields)
+
+
 class User(AbstractUser):
   """
   Represents a user on the platform, could be either a customer or a
   bussiness.
   """
+  username = None
+
   class Role(models.TextChoices):
     Developer = 'developer'
     User = 'user'
@@ -27,14 +68,9 @@ class User(AbstractUser):
     unique=True,
     blank=False,
     editable=False,
-  )
-
-  username = models.CharField(
-    max_length=128,
-    null=True,
-    default=None,
-    editable=False,
-    unique=True,
+    error_messages={
+      'unique': 'An account with this email already exists.',
+    },
   )
 
   role = models.CharField(
@@ -44,12 +80,14 @@ class User(AbstractUser):
   )
 
   REQUIRED_FIELDS = [
-    'username',
     'first_name',
     'last_name',
   ]
 
   USERNAME_FIELD = 'email'
+
+  # Overridden model manager
+  objects = UserManager()
 
   @property
   def is_end_user(self):
